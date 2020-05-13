@@ -4,12 +4,18 @@
         browse_button="browse_button"
         :url="server_config.url+'/BigFile/'"
         chunk_size="2MB"
-        :filters="{prevent_duplicates:true}"
+        :filters="{
+          mime_types : [
+            { title : 'APK files', extensions : 'apk' }
+          ],
+          prevent_duplicates:true
+        }"
         :FilesAdded="filesAdded"
+        :multi_selection="false"
         :BeforeUpload="beforeUpload"
         @inputUploader="inputUploader"
     />
-    <el-button type="primary" id="browse_button">选择文件</el-button>
+    <el-button type="primary" id="browse_button">选择APK文件</el-button>
     <br/>
     <el-table
       :data="tableData"
@@ -33,7 +39,8 @@
           <span v-if="scope.row.status === 1">MD5计算完成，准备上传</span>
           <span v-if="scope.row.status === 4" style="color: brown">上传失败</span>
           <span v-if="scope.row.status === 5" style="color: chartreuse">已上传</span>
-          <el-progress v-if="scope.row.status === 2" :text-inside="true" :stroke-width="20" :percentage="scope.row.percent"></el-progress>
+          <el-progress v-if="scope.row.status === 2" :text-inside="true" :stroke-width="20"
+                       :percentage="scope.row.percent"/>
         </template>
       </el-table-column>
       <el-table-column
@@ -44,7 +51,30 @@
       </el-table-column>
     </el-table>
     <br/>
-    <el-button type="danger" @click="up.start()">开始上传</el-button>
+    <el-input
+      type="text"
+      style="width:15%;"
+      placeholder="请输入版本号"
+      v-model="versionNumber">
+    </el-input>
+    <el-input
+      type="text"
+      style="width:15%;"
+      placeholder="请输入版本名称"
+      v-model="versionName">
+    </el-input>
+    <br/>
+    <br/>
+    <el-input
+      type="textarea"
+      style="width:80%;"
+      :rows="20"
+      placeholder="请输入更新内容"
+      v-model="textarea">
+    </el-input>
+    <br/>
+    <br/>
+    <el-button type="danger" @click=startUpload(up)>开始上传</el-button>
   </div>
 </template>
 
@@ -52,13 +82,16 @@
   import FileMd5 from '../models/file-md5.js'
   import Uploader from './Uploader'
   export default {
-    name: 'BigFileUpload',
+    name: 'APKFileUpload',
     data() {
       return {
         server_config: this.global.server_config,
         up: {},
         files:[],
-        tableData: []
+        tableData: [],
+        versionNumber: '',
+        versionName: '',
+        textarea: ''
       }
     },
     components: {
@@ -87,6 +120,9 @@
         this.files = up.files;
       },
       filesAdded(up, files) {
+        if (up.files.length > 1) {
+          up.removeFile(up.files[0])
+        }
         files.forEach((f) => {
           f.status = -1;
           FileMd5(f.getNative(), (e, md5) => {
@@ -101,6 +137,24 @@
       },
       beforeUpload(up, file) {
         up.setOption("multipart_params", {"size":file.size,"md5":file.md5});
+      },
+      startUpload(up) {
+        up.start();
+
+        console.log("number:"+this.versionNumber + " name:" + this.versionName + " content:" + this.textarea);
+        console.log("files[0].name:"+this.files[0].name + " this.files[0].md5:" + this.files[0].md5 + " this.files[0].size:" + this.files[0].size);
+        this.$axios.post(this.server_config.url + '/APKFile/info', {
+          "verionNumber": this.versionNumber,
+          "versionName": this.versionName,
+          "name": this.files[0].name,
+          "md5": this.files[0].md5,
+          "content": this.textarea,
+          "size": this.files[0].size
+        }).then(function (response) {
+          console.log(response);
+        }).catch(function (error) {
+          console.log(error);
+        });
       }
     }
   }

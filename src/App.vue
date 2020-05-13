@@ -14,8 +14,12 @@
             <el-menu-item index="multiFileUpload" @click="redirectUrl('/multiFileUpload')">
               <i class="el-icon-date"></i>
               <span slot="title">多文件上传</span>
-            </el-menu-item>-->
+            </el-menu-item>
             <el-menu-item index="bigFileUpload" @click="redirectUrl('/bigFileUpload')">
+              <i class="el-icon-tickets"></i>
+              <span slot="title">大文件上传</span>
+            </el-menu-item>-->
+            <el-menu-item index="apkFileUpload" @click="redirectUrl('/apkFileUpload')">
               <i class="el-icon-tickets"></i>
               <span slot="title">APK上传</span>
             </el-menu-item>
