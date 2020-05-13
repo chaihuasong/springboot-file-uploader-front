@@ -9,7 +9,7 @@
         :BeforeUpload="beforeUpload"
         @inputUploader="inputUploader"
     />
-    <el-button type="primary" id="browse_button">选择多个文件</el-button>
+    <el-button type="primary" id="browse_button">选择文件</el-button>
     <br/>
     <el-table
       :data="tableData"
@@ -43,6 +43,15 @@
         </template>
       </el-table-column>
     </el-table>
+    <br/>
+    <el-input
+      type="textarea"
+      style="width:60%;"
+      :rows="20"
+      placeholder="请输入更新内容"
+      v-model="textarea2">
+    </el-input>
+    <br/>
     <br/>
     <el-button type="danger" @click="up.start()">开始上传</el-button>
   </div>
