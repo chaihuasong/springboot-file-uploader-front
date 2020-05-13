@@ -14,7 +14,7 @@
     "css-loader": "^1.0.0",
     "element-ui": "^2.4.8",
     "file-loader": "^2.0.0",
-    "npm": "^6.4.1",
+    "npm": "^6.13.4",
     "plupload": "^2.3.6",
     "url-parse": ">=1.4.3",
     "vue": "^2.5.2",
