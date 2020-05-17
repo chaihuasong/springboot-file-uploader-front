@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import APKFileUpload from '../components/APKFileUpload'
+import CommonFileUpload from '../components/CommonFileUpload'
 import BigFileUpload from '../components/BigFileUpload'
 import StopUpload from '../components/StopUpload'
 import QuickUpload from '../components/QuickUpload'
@@ -13,6 +14,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {path:'/apkFileUpload',component:APKFileUpload,name:'apkFileUpload'},
+    {path:'/commonFileUpload',component:CommonFileUpload,name:'commonFileUpload'},
     {path:'/singleFileUpload',component:SingleFileUpload,name:'singleFileUpload'},
     {path:'/bigFileUpload',component:BigFileUpload,name:'bigFileUpload'},
     {path:'/stopUpload',component:StopUpload,name:'stopUpload'},

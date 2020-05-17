@@ -5,17 +5,13 @@
         :url="server_config.url+'/BigFile/'"
         chunk_size="2MB"
         :filters="{
-          mime_types : [
-            { title : 'APK files', extensions : 'apk' }
-          ],
           prevent_duplicates:true
         }"
         :FilesAdded="filesAdded"
-        :multi_selection="false"
         :BeforeUpload="beforeUpload"
         @inputUploader="inputUploader"
     />
-    <el-button type="primary" id="browse_button">选择APK文件</el-button>
+    <el-button type="primary" id="browse_button">选择文件</el-button>
     <br/>
     <el-table
       :data="tableData"
@@ -51,28 +47,6 @@
       </el-table-column>
     </el-table>
     <br/>
-    <el-input
-      type="text"
-      style="width:15%;"
-      placeholder="请输入版本号"
-      v-model="versionNumber">
-    </el-input>
-    <el-input
-      type="text"
-      style="width:15%;"
-      placeholder="请输入版本名称(1.0.0)"
-      v-model="versionName">
-    </el-input>
-    <br/>
-    <br/>
-    <el-input
-      type="textarea"
-      style="width:80%;"
-      :rows="20"
-      placeholder="请输入更新内容"
-      v-model="textarea">
-    </el-input>
-    <br/>
     <br/>
     <el-button type="danger" @click=startUpload(up)>开始上传</el-button>
   </div>
@@ -88,10 +62,7 @@
         server_config: this.global.server_config,
         up: {},
         files:[],
-        tableData: [],
-        versionNumber: '',
-        versionName: '',
-        textarea: ''
+        tableData: []
       }
     },
     components: {
@@ -147,25 +118,6 @@
           return
         }
         up.start();
-
-        console.log("number:"+this.versionNumber + " name:" + this.versionName + " content:" + this.textarea);
-        console.log("files[0].name:"+this.files[0].name + " this.files[0].md5:" + this.files[0].md5 + " this.files[0].size:" + this.files[0].size);
-        if (this.versionNumber.trim() === '' || this.versionName.trim() === '' || this.textarea.trim() === '') {
-          console.log("do not update apk info");
-          return
-        }
-        this.$axios.post(this.server_config.url + '/APKFile/info', {
-          "versionNumber": this.versionNumber,
-          "versionName": this.versionName,
-          "name": this.files[0].name,
-          "md5": this.files[0].md5,
-          "content": this.textarea,
-          "size": this.files[0].size
-        }).then(function (response) {
-          console.log(response);
-        }).catch(function (error) {
-          console.log(error);
-        });
       }
     }
   }

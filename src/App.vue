@@ -23,6 +23,10 @@
               <i class="el-icon-tickets"></i>
               <span slot="title">APK上传</span>
             </el-menu-item>
+            <el-menu-item index="commonFileUpload" @click="redirectUrl('/commonFileUpload')">
+              <i class="el-icon-tickets"></i>
+              <span slot="title">文件上传</span>
+            </el-menu-item>
             <!--<el-menu-item index="stopUpload" @click="redirectUrl('/stopUpload')">
               <i class="el-icon-document"></i>
               <span slot="title">断点续传</span>
