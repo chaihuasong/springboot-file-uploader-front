@@ -141,10 +141,17 @@
       startUpload(up) {
         if (this.files[0] == null) {
           this.$message({
-            message: '未输选择任何文件！',
+            message: '未选择任何文件！',
             type: 'warning'
-          })
-          return
+          });
+          return;
+        }
+        if (this.files[0].status === 5) {
+          this.$message({
+            message: '文件已上传',
+            type: 'warning'
+          });
+          return;
         }
         up.start();
 
