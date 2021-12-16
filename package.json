@@ -15,7 +15,7 @@
     "element-ui": "^2.4.8",
     "file-loader": "^2.0.0",
     "npm": "^6.4.1",
-    "plupload": "^2.3.6",
+    "plupload": "^2.3.9",
     "scss": "^0.2.4",
     "upgrade": "^1.1.0",
     "url-parse": ">=1.4.3",
